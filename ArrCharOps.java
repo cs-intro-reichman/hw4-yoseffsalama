@@ -1,139 +1,209 @@
-public class TesterArrayCharOps {
-
+/** A library of operations on arrays of characters (char values).
+ *  The library also features a string comparison method. */
+public class ArrCharOps {
     public static void main(String[] args) {
-        testCharAt();
-        testEquals();
-        testIndexOf();
-        testConcat();
-        testSubArray();
-        testCompareTo();
-        testHashCode();
+        String str = "clearly";
+        char[] arr1 = {'c','l','e','a','r','l','y'};
+        char[] arr2 = {'U','n','d','e','r','s','t', 'o', 'o', 'd'};
+        System.out.println(str);  // Prints the string
+        println(arr1);            // Prints an array of characters
+        System.out.println(charAt(arr1,2));      
+        System.out.println(indexOf(arr1,'l'));  
+        System.out.println(indexOf(arr1,'l',3)); 
+        System.out.println(lastIndexOf(arr1, 'l'));
+        System.out.println(concat(arr1, arr2));
+        System.out.println(subArray(arr2, 2, 9));
+        System.out.println(compareTo("abcd", "abcd"));
+        System.out.println(compareTo("abc", "abcd"));
+        System.out.println(compareTo("abw", "abcd"));
+        System.out.println(compareTo("Abcd", "a"));
+        System.out.println(compareTo("apple", "banana"));
+        System.out.println(compareTo("apple", "applepie"));
+        System.out.println(compareTo("Zoo", "zoo"));
+        System.out.println(hashCode(arr1));
+        System.out.println(hashCode(arr2));
     }
 
-    private static void testCharAt() {
-        int num_tests = 4;
-        System.out.println("Testing 'charAt':");
-
-        char[] arr1 = "A wizzard is never late".toCharArray();
-        boolean test1 = ArrCharOps.charAt(arr1, 2) == 'w';
-        boolean test2 = ArrCharOps.charAt(arr1, 5) == 'z';
-        boolean test3 = ArrCharOps.charAt(arr1, 9) == ' ';
-        boolean test4 = ArrCharOps.charAt(arr1, arr1.length - 1) == 'e';
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0) + 
-                    (test4 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** Prints the given array of characters, and moves the cursor to the next line.
+     */
+    public static void println(char[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+        }
+        System.out.println();
     }
 
-
-    private static void testEquals() {
-        int num_tests = 3;
-        System.out.println("Testing 'equals':");
-
-        char[] arr1 = "You know nothing John Snow".toCharArray();
-        char[] arr2 = "You know nothing john snow".toCharArray();
-        char[] empty_arr = {};
-
-        boolean test1 = !ArrCharOps.equals(arr1, arr2);
-        boolean test2 = ArrCharOps.equals(arr1, arr1);
-        boolean test3 = ArrCharOps.equals(empty_arr, empty_arr);
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** Returns the char value at the specified index. Assume that the array is non-empty.
+     */
+    public static char charAt(char[] arr, int index) {
+        if (!(arr instanceof char[])) {
+            return 0; 
+        }
+        return arr[index];
     }
 
-    private static void testIndexOf() {
-        int num_tests = 7;
-        System.out.println("Testing 'indexOf' functions:");
-
-        char[] empty_arr = {};
-        char[] arr1 = "You are a wizard Harry.".toCharArray();
-
-        boolean test1 = ArrCharOps.indexOf(arr1, 'w') == 10;
-        boolean test2 = ArrCharOps.indexOf(arr1, 'w', 5) == 10;
-        boolean test3 = ArrCharOps.indexOf(arr1, 'w', 12) == -1;
-        boolean test4 = ArrCharOps.indexOf(arr1, 'G') == -1;
-        boolean test5 = ArrCharOps.indexOf(empty_arr, 'w') == -1;
-
-        boolean test6 = ArrCharOps.lastIndexOf(arr1, 'r') == 20;
-        boolean test7 = ArrCharOps.lastIndexOf(arr1, 'B') == -1;
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0) + (test4 ? 1 : 0) +
-                     (test5 ? 1 : 0) + (test6 ? 1 : 0) + (test7 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** If the two arrays have the same value in every index, 
+     *  returns true; Otherwise returns false.
+     */
+    public static boolean equals(char[] arr1, char[] arr2) {
+        if (!(arr1 instanceof char[]) || !(arr2 instanceof char[])) {
+            return false; 
+        }
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+        
     }
 
-    private static void testConcat() {
-        int num_tests = 3;
-        System.out.println("Testing 'concat':");
-
-        char[] empty_arr = {};
-        char[] arr1 = "I am the ".toCharArray();
-        char[] arr2 = "eggman".toCharArray();
-        char[] arr3 = "walrus".toCharArray();
-
-        boolean test1 = ArrCharOps.equals(ArrCharOps.concat(arr1, arr2), "I am the eggman".toCharArray());
-        boolean test2 = ArrCharOps.equals(ArrCharOps.concat(arr1, arr3), "I am the walrus".toCharArray());
-        boolean test3 = ArrCharOps.equals(ArrCharOps.concat(empty_arr, arr3), arr3);
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** Returns the index within the given array of the first occurrence of the given character.
+     *  If no such character is found, returns -1.
+     */
+    public static int indexOf(char[] arr, char ch) {
+        if (!(arr instanceof char[])) {
+            return -1; 
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (ch == arr[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    private static void testSubArray() {
-        int num_tests = 2;
-
-        System.out.println("Testing 'subArray':");
-        char[] arr1 = "Somebody stop me".toCharArray();
-        boolean test1 = ArrCharOps.equals(ArrCharOps.subArray(arr1, 0, 8), "Somebody".toCharArray());
-        boolean test2 = ArrCharOps.equals(ArrCharOps.subArray(arr1, 9, 16), "stop me".toCharArray());
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "(Failed)";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** Same as indexOf(char[], char), but starts the search in the given index.
+     */
+    public static int indexOf(char[] arr, char ch, int fromIndex) {
+        if (!(arr instanceof char[])) {
+            return 0; 
+        }
+        for (int i = fromIndex; i < arr.length; i++) {
+            if (ch == arr[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    private static void testCompareTo() {
-        int num_tests = 4;
-        System.out.println("Testing 'compareTo':");
-
-        boolean test1 = ArrCharOps.compareTo("abc", "abc") == 0;
-        boolean test2 = ArrCharOps.compareTo("abc", "aBc") == 1;
-        boolean test3 = ArrCharOps.compareTo("abc", "abcd") == -1;
-
-        int res = ArrCharOps.compareTo("abc", "");
-        boolean test4 = res != 0 && res != -1 && res != 1;
-
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0) + (test4 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict);
+    /** Returns the index within the given arr of the last occurrence of the given character.
+     *  If no such character is found, returns -1.
+     */
+    public static int lastIndexOf(char[] arr, char ch) {
+        if (!(arr instanceof char[])) {
+            return 0; 
+        }
+        for (int i = (arr.length-1); i >= 0; i--) {
+            if (ch == arr[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    private static void testHashCode() {
-        int num_tests = 3;
-        System.out.println("Testing 'hashCode':");
+    /* Returns an array which is the concatanation of the two given arrays.
+    */
+    public static char[] concat(char[] arr1, char[] arr2) {
+        if (!(arr1 instanceof char[]) || !(arr2 instanceof char[])) {
+            return null; 
+        }
+        char[] arr3 = new char[arr1.length + arr2.length];
+        for (int i = 0; i < arr3.length; i++) {
+            if (i < arr1.length) {
+                arr3[i] = arr1[i];
+            }
+            else {
+                arr3[i] = arr2[i-arr1.length];
+            }
+        }
+        return arr3;
+    }
 
-        char[] arr1 = {'a'};
-        char[] arr2 = "lemon".toCharArray();
-        char[] arr3 = {};
+    /** Returns a new array that can be described as a sub-array of this array.
+     *  The sub-array begins at the specified beginIndex and extends to the character at index endIndex - 1.
+     *  For example, if arr contains the characters "hamburger", then subArray(4, 8) returns an array of
+     *  characters containing the characters "urge".
+     */     
+    public static char[] subArray(char[] arr, int beginIndex, int endIndex) {
+        if (!(arr instanceof char[])) {
+            return null; 
+        }
+        if ((beginIndex >= endIndex) || (endIndex > arr.length) || (beginIndex < 0) || (endIndex < 0)) {
+            return null;
+        }
+        char[] subArray = new char[endIndex - beginIndex];
+        for (int i = beginIndex; i < endIndex; i++) {
+            subArray[i-beginIndex] = arr[i];
+        }
+        return subArray;
+    }
 
-        boolean test1 = ArrCharOps.hashCode(arr1) == (long) 97;
-        boolean test2 = ArrCharOps.hashCode(arr2) == (long) 300179;
-        boolean test3 = ArrCharOps.hashCode(arr3) == (long) 0;
+     /** Returns a single integer that represents the given array. This integer is sometimes 
+     *  referred to as the array's "hash code". Later in the course we'll explain what these 
+     *  hash codes are used for. For now, simply implement the specification given below.
+     *  The hash code is computed as: arr[0]*7^(n-1) + arr[1]*7^(n-2) + ... + arr[n-2]*7 + arr[n-1]
+     *  where arr[i] is the i'th character of the array, and n is the array's length.
+     *  The hash value of an empty array is zero.
+     */
+    public static long hashCode(char[] arr) {
+        if (!(arr instanceof char[])) {
+            return 0; 
+        }
+        int hash = 0;
+        for (int i = 0; i < arr.length; i++) {
+            hash += arr[i]*Math.pow(7, ((arr.length-i)-1));
+        }
+        return hash;
+    }
 
-        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0);
-        String verdict = passed == num_tests ? "(Passed)": "Failed";
-
-        System.out.println("Passed " + passed + "/" + num_tests + " tests " + verdict); 
+    /**
+     * Compares the two strings lexicographically.
+     * Assume that both strings are not empty.
+     * 
+     * Characters are compared one by one from left to right, using their numeric Unicode values,
+        as follows:
+     * 1. If two characters at the same position in both strings are different,
+     *    the string with the smaller character is considered lexicographically smaller.
+     * 2. If all characters in the shorter string match the corresponding characters
+     *    in the longer string, the shorter string is considered lexicographically smaller.
+     * 3. If both strings have the same characters and the same length, they are considered equal.
+     * 
+     * Examples:
+     * - "apple" is less than "banana" because 'a' comes before 'b'.
+     * - "abc" is less than "abcd" because it is shorter.
+     * - "hello" is equal to "hello".
+     * - "date" is greater than "dark" because 't' comes after 'k'.
+     * 
+     * @param str1 the first string to compare
+     * @param str2 the second string to compare
+     * @return -1 if str1 is lexicographically less than str2,
+     *         zero if they are equal, and 1 if str1 is
+     *         lexicographically greater than str2.
+     *         return -2 if there is an error with the input.
+     */
+    public static int compareTo(String str1, String str2) {
+        if (!(str1 instanceof String) || !(str2 instanceof String) || (str1.length()*str2.length() == 0)) {
+            return -2; 
+        }
+        int length;
+        if (str1.length() <= str2.length()) {
+            length = str1.length();
+        } else {
+            length = str2.length();
+        }
+        for (int i = 0; i < length; i++) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                return (str1.charAt(i) > str2.charAt(i) ? 1 : -1);
+            }
+        }
+        if (str1.length() == str2.length()) {
+            return 0;
+        } else {
+            return (str1.length() > str2.length() ? 1 : -1);
+        }
     }
 }
