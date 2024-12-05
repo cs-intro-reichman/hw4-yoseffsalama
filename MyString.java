@@ -7,50 +7,39 @@ public class MyString {
         System.out.println("lowercase : " + lowerCase("lowercase"));
 
         System.out.println("Testing contains:");
-        System.out.println(contains("unhappy", "happy")); 
-        System.out.println(contains("happy", "unhappy")); 
-        System.out.println(contains("historical", "story")); 
-        System.out.println(contains("psychology", "psycho")); 
-        System.out.println(contains("personality", "son")); 
-        System.out.println(contains("personality", "dad")); 
-        System.out.println(contains("resignation", "sign")); 
+        System.out.println(contains("unhappy", "happy")); // true
+        System.out.println(contains("happy", "unhappy")); // false
+        System.out.println(contains("historical", "story")); // false
+        System.out.println(contains("psychology", "psycho")); // true
+        System.out.println(contains("personality", "son")); // true
+        System.out.println(contains("personality", "dad")); // false
+        System.out.println(contains("resignation", "sign")); // true
     }
 
-
-    public static String lowerCase(String str) { 
-        String result = "";
-        for (int i=0; i<str.length(); i++) {
-        char c= str.charAt(i);
-        if (c>='A' && c<='Z') {
-          c+=('a'-'A');
-        }
-        result+=c;   
-      }
-      return  result;
-    }
-
-    public static boolean contains(String str1, String str2) {
-        int m=0;
-        if (str1.length()<str2.length()) {
-            return false;
-        }
-        for (int i=0; i<str1.length(); i++) {
-            m=0;
-            for (int j=0; j<str2.length(); j++) {
-                if (str1.charAt(i)!=str2.charAt(j)) {
-                    break;
-                }
-                else {
-             i++; 
-             m++;
-                }
-            }
-            if (m==str2.length()) {
-                return true;
+    /** Returns the lowercase version of the given string. */
+    public static String lowerCase(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (((int) (str.charAt(i)) <= 90) && ((int) (str.charAt(i)) >= 65 )) {
+                str = str.substring(0, i) + ((char) ((int) (str.charAt(i)) + 32)) + str.substring(i+1);
             } 
         }
-       
-        return false;
-        
+        return str;
+    }
+
+    /** If str1 contains str2, returns true; otherwise returns false. */
+    public static boolean contains(String str1, String str2) {
+        for (int i = 0; i <= str1.length()-str2.length(); i++) {
+            int goodi = i;
+            for (int k = 0; k < str2.length(); k++) {
+                if (str2.charAt(k) != str1.charAt(goodi)) {
+                    break;
+                }
+                goodi++;
+                if (k == str2.length()-1) {
+                    return true;
+                }
+            }
+        }
+        return str2.length() == 0;
     }
 }
